@@ -10,7 +10,6 @@
             </div>
         </div>
 
-
         <div class="row justify-content-center mt-3">
             <div class="col-12 col-md-6">
                 <div id="data-container"></div>
@@ -19,51 +18,4 @@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            var progress = 0;
-
-            $('#fetch-data-btn').click(function() {
-                if (progress >= 100) {
-                } 
-                else {
-                    $.ajax({
-                        url: 'get_data/',
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function(data) {
-                            $('#data-container').text(JSON.stringify(data)+'%');
-                        },
-                        error: function(xhr, status, error) {
-                            $('#data-container').text('Error');
-                            console.log('Error:', error);
-                        }
-                    });
-                }
-            });
-        });
-    </script>
-
-    <script type="text/javascript">
-        function startProgress() {
-            // Show the modal with the progress bar
-            var modal = document.getElementById('modal');
-            modal.style.display = 'flex';
-
-            // Start the progress and update the progress bar
-            var progressBar = document.getElementById('progress-bar');
-            var progress = 0;
-            var intervalId = setInterval(function() {
-                if (progress >= 100) {
-                    // Hide the modal when the progress is complete
-                    clearInterval(intervalId);
-                    modal.style.display = 'none';
-                } else {
-                    progress += 1;
-                    progressBar.textContent = progress.toString() + '%'
-                    progressBar.style.width = progress + '%';
-                }
-            }, 100);
-        }
-    </script>
 {% endblock %}

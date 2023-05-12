@@ -9,9 +9,9 @@
         <h2 class="text-center">Enter text</h2>
         <form method="post">
           {% csrf_token %}
-          <div class="form-group">
+          <div class="form-floating mb-3">
+            <textarea class="form-control" name="text" placeholder=" " id="text" rows="5"></textarea>
             <label for="text">Text:</label>
-            <textarea name="text" rows="5" class="form-control"></textarea>
           </div>
           <button type="submit" class="btn btn-primary btn-block mt-3">Submit</button>
         </form>

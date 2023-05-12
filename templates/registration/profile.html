@@ -1,74 +1,74 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{% static 'profile.css' %}">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.min.js"></script>
 
 <div class="container-fluid">
-<h1>Profile</h1>
-    <p>Username: {{ user.username }}</p>
-    <h1>My total words are : {{total_words}}  {% if new_added == "0" %}{% else %}; {{new_added}} are newly added {% endif %}</h1>
-    {% if words_list %}
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Text<button class="sort-btn" data-sort="word">Sort A-Z</button></th>
-              <th>Translation<button class="sort-btn" data-sort="translation">Sort A-Z</button></th>
-              <th>Date Added<button class="sort-btn" data-sort="date_added">Sort Oldest First</button></th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for word in words_list %}
-              <tr id="word-{{ word.id }}">
-                <td class="word-text">{{ word.word }}</td>
-                <td class="word-translation">{{ word.translation }}</td>
-                <td>{{ word.date_added.date }}</td>
-                <td>
-                  <button type="button" class="edit-word-btn btn btn-primary" data-toggle="modal" data-target="#edit-word-modal" data-word-id="{{ word.id }}" data-word-text="{{ word.word }}" data-word-translation="{{ word.translation }}">Edit</button>
+  <h1 class="mb-4">Profile</h1>
 
-                </td>
-                <td>
-                  <form id="delete-word-form-{{ word.id }}" method="POST" action="{% url 'neword:delete_word' word.id %}">
-                    {% csrf_token %}
-                    <button type="submit">Delete</button>
-                  </form>
-                </td>
+  <p class="mb-4">Username: {{ user.username }}</p>
 
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    {% else %}
-      <p>Wow! You do not have any words!</p>
-    {% endif %}
+  <h2 class="mb-4">My total words are: {{ total_words }}{% if new_added != "0" %}; {{ new_added }} are newly added{% endif %}</h2>
 
-  <!-- Edit Word Modal -->
-<div class="modal fade" id="edit-word-modal" tabindex="-1" role="dialog" aria-labelledby="edit-word-modal-label">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  {% if words_list %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Text <button class="sort-btn" data-sort="word">Sort A-Z</button></th>
+          <th scope="col">Translation <button class="sort-btn" data-sort="translation">Sort A-Z</button></th>
+          <th scope="col">Date Added <button class="sort-btn" data-sort="date_added">Sort Oldest First</button></th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for word in words_list %}
+        <tr id="word-{{ word.id }}">
+          <td class="word-text">{{ word.word }}</td>
+          <td class="word-translation">{{ word.translation }}</td>
+          <td>{{ word.date_added.date }}</td>
+          <td>
+            <button type="button" class="edit-word-btn btn btn-primary" data-toggle="modal" data-target="#edit-word-modal" data-word-id="{{ word.id }}" data-word-text="{{ word.word }}" data-word-translation="{{ word.translation }}">Edit</button>
+          </td>
+          <td>
+            <form id="delete-word-form-{{ word.id }}" method="POST" action="{% url 'neword:delete_word' word.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="mb-4">Wow! You do not have any words!</p>
+  {% endif %}
+
+<!-- Edit Word Modal -->
+<div class="modal fade" id="edit-word-modal" tabindex="-1" aria-labelledby="edit-word-modal-label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="edit-word-modal-label">Edit Word</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="edit-word-form" method="POST">
           {% csrf_token %}
-          <div class="form-group">
-            <label for="id_word">Word</label>
+          <div class="mb-3">
+            <label for="id_word" class="form-label">Word</label>
             <input type="text" class="form-control" id="id_word" placeholder="Enter word" name="word" required>
           </div>
-          <div class="form-group">
-            <label for="id_translation">Translation</label>
+          <div class="mb-3">
+            <label for="id_translation" class="form-label">Translation</label>
             <input type="text" class="form-control" id="id_translation" placeholder="Enter translation" name="translation" required>
           </div>
-          <div class="form-group text-right">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
             <button type="submit" class="btn btn-primary">Save</button>
           </div>
         </form>
@@ -77,8 +77,111 @@
   </div>
 </div>
 
+
 </div>
 
 <script type="text/javascript" src="{% static 'profile.js' %}"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+  // Handle edit word button click
+  $('.edit-word-btn').click(function() {
+    var wordId = $(this).data('word-id');
+    var word = $(this).data('word-text');
+    var trans = $(this).data('word-translation');
+    console.log(wordId,word,trans);
+    // TODO: Display word data in modal form
+  });
+});
 
+$('.sort-btn').click(function() {
+  const column = $(this).data('sort');
+  const reverse = $(this).hasClass('sort-desc');
+  sortWordsBy(column, reverse);
+  $(this).toggleClass('sort-desc');
+});
+
+
+function sortWordsBy(column, reverse) {
+  const rows = Array.from(document.querySelectorAll('tbody tr'));
+  const sortedRows = rows.sort((a, b) => {
+    const aData = a.querySelector(`.word-${column}`).textContent.trim();
+    const bData = b.querySelector(`.word-${column}`).textContent.trim();
+    if (aData < bData) {
+      return reverse ? 1 : -1;
+    } else if (aData > bData) {
+      return reverse ? -1 : 1;
+    } else {
+      return 0;
+    }
+  });
+  const tableBody = document.querySelector('tbody');
+  tableBody.innerHTML = '';
+  sortedRows.forEach(row => tableBody.appendChild(row));
+}
+
+$(document).ready(function() {
+    // Handle delete word form submission
+    $('form[id^="delete-word-form-"]').submit(function(event) {
+        event.preventDefault();
+        var form = $(this);
+        var url = form.attr('action');
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: form.serialize(),
+            success: function(response) {
+                if (response.success) {
+                    var wordId = form.attr('id').split('-')[3];
+                    $('#word-' + wordId).remove();
+                }
+            },
+            error: function(response) {
+                console.log(response.responseText);
+            }
+        });
+    });
+
+    // Handle edit word button click
+    $('button.edit-word-btn').click(function() {
+        var wordId = $(this).data('word-id');
+        var wordText = $(this).data('word-text');
+        var wordTranslation = $(this).data('word-translation');
+
+        // Set the form values to the retrieved data
+        $('#id_word').val(wordText);
+        $('#id_translation').val(wordTranslation);
+
+        // Update the form action with the word ID
+        $('#edit-word-form').attr('action', '/edit_word/' + wordId + '/');
+
+        // Display the modal with the form
+        $('#edit-word-modal').modal('show');
+    });
+
+    // Handle edit word form submission
+    $('#edit-word-form').submit(function(event) {
+        event.preventDefault();
+        var form = $(this);
+        var url = form.attr('action');
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: form.serialize(),
+            success: function(response) {
+                if (response.success) {
+                    var wordId = url.split('/')[2];
+                    var wordRow = $('#word-' + wordId);
+                    console.log(wordRow);
+                    wordRow.find('.word-text').text(response.word.word);
+                    wordRow.find('.word-translation').text(response.word.translation);
+                    $('#edit-word-modal').modal('hide');
+                }
+            },
+            error: function(response) {
+                console.log(response.responseText);
+            }
+        });
+    });
+});
+</script>
 {% endblock %}
