@@ -1,0 +1,96 @@
+        /* Styling for header */
+        header {
+          background-color: #333;
+          color: white;
+          height: 50px;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          z-index: 1;
+        }
+
+        /* Styling for logo */
+        header .logo {
+          float: left;
+          margin-left: 20px;
+          margin-top: 5px;
+        }
+
+        /* Styling for navigation menu */
+        header nav {
+          float: right;
+          margin-top: 10px;
+        }
+
+        header nav ul {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+
+        header nav ul li {
+          display: inline-block;
+          margin-right: 20px;
+        }
+
+        header nav ul li a {
+          color: white;
+          text-decoration: none;
+        }
+
+        /* Styling for main content */
+        main {
+          margin-top: 80px;
+          margin-bottom: 30px;
+          padding: 0 20px;
+        }
+
+        /* Styling for footer */
+        footer {
+          background-color: #333;
+          color: white;
+          height: 50px;
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          z-index: 1;
+        }
+
+        footer p {
+          float: right;
+          margin-right: 20px;
+          margin-top: 15px;
+        }
+
+        /* Media query for mobile devices */
+        @media (max-width: 767px) {
+
+          /* Styling for logo */
+          header .logo {
+            margin: 5px auto;
+            display: block;
+            text-align: center;
+            float: none;
+          }
+
+          /* Styling for navigation menu */
+          header nav {
+            margin-top: 15px;
+            float: none;
+          }
+
+          header nav ul li {
+            display: block;
+            text-align: center;
+            margin: 5px 0;
+          }
+
+          /* Styling for footer */
+          footer p {
+            float: none;
+            text-align: center;
+            margin: 15px auto 5px auto;
+          }
+        }

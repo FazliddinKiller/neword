@@ -1,0 +1,16 @@
+.sort-btn::after {
+  content: '';
+  display: inline-block;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+.sort-btn.sort-desc::after {
+  border: solid transparent;
+  border-width: 0 0.3rem 0.3rem 0.3rem;
+  border-bottom-color: currentColor;
+}
+.sort-btn:not(.sort-desc)::after {
+  border: solid transparent;
+  border-width: 0.3rem 0.3rem 0 0.3rem;
+  border-top-color: currentColor;
+}
